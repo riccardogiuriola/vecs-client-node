@@ -1,0 +1,32 @@
+{
+  "name": "vecs-client",
+  "version": "1.0.0",
+  "description": "High-performance Semantic Cache client for Vex (Node.js & TypeScript)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vector",
+    "semantic-cache",
+    "llm",
+    "ai",
+    "redis-protocol",
+    "vecs"
+  ],
+  "author": "razor99",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuouser/vecs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tuouser/vecs/issues"
+  },
+  "homepage": "https://github.com/tuouser/vecs#readme"
+}
