@@ -145,6 +145,19 @@ export class VecsClient extends EventEmitter {
     return await this.sendCommand("QUERY", prompt, params);
   }
 
+  /**
+   * Rimuove un dato dalla cache (L1 e L2).
+   * @param prompt - La frase da rimuovere.
+   * @param params - Oggetto metadati (deve corrispondere a quello usato nel SET).
+   */
+  public async delete(
+    prompt: string,
+    params: Record<string, any> = {}
+  ): Promise<boolean> {
+    const res = await this.sendCommand("DELETE", prompt, params);
+    return res === "OK";
+  }
+
   // --- Parsing VSP Protocol ---
 
   private handleData(chunk: Buffer): void {
