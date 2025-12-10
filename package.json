@@ -23,10 +23,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tuouser/vecs.git"
+    "url": "git+https://github.com/riccardogiuriola/vecs-client-node"
   },
   "bugs": {
-    "url": "https://github.com/tuouser/vecs/issues"
+    "url": "https://github.com/riccardogiuriola/vecs-client-node/issues"
   },
-  "homepage": "https://github.com/tuouser/vecs#readme"
+  "homepage": "https://github.com/riccardogiuriola/vecs-client-node#readme"
 }
