@@ -28,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/riccardogiuriola/vecs-client-node/issues"
   },
-  "homepage": "https://github.com/riccardogiuriola/vecs-client-node#readme"
+  "homepage": "https://github.com/riccardogiuriola/vecs-client-node#readme",
+  "devDependencies": {
+    "@types/node": "^25.0.1",
+    "typescript": "^5.9.3"
+  }
 }
