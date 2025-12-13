@@ -1,5 +1,9 @@
 import { VecsClient } from "../src/index";
 
+async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function main() {
   const vecs = new VecsClient({ port: 6379 });
 
@@ -8,38 +12,41 @@ async function main() {
   try {
     console.log("🔌 Connessione...");
     await vecs.connect();
-    console.log("✅ Connesso a Vex!");
+    console.log("✅ Connesso a Vecs!");
 
-    // 1. SET
+    // 1. SET STANDARD
     const prompt = "Come resetto la password?";
     const response = "Vai su Impostazioni > Sicurezza > Reset.";
 
-    console.log(`\n📝 SET: "${prompt}"`);
-    const setRes = await vecs.set(prompt, { category: "support" }, response);
-    console.log(`   -> ${setRes}`); // Dovrebbe stampare "OK"
+    console.log(`\n📝 SET (Default TTL): "${prompt}"`);
+    await vecs.set(prompt, { category: "support" }, response);
 
-    // 2. QUERY L1 (Esatta)
-    console.log(`\n🔍 QUERY L1 (Identica): "${prompt}"`);
-    const l1Res = await vecs.query(prompt, { category: "support" });
-    console.log(`   -> HIT: "${l1Res}"`);
+    // 2. SET CON TTL
+    const tempPrompt = "Offerta lampo";
+    const tempResponse = "Sconto del 50% solo per oggi!";
+    const ttlSeconds = 2;
 
-    // 3. QUERY L2 (Semantica)
-    const semanticPrompt = "Ho dimenticato la password, come faccio?";
-    console.log(`\n🧠 QUERY L2 (Semantica): "${semanticPrompt}"`);
-    const l2Res = await vecs.query(semanticPrompt, { category: "support" });
+    console.log(`\n⏱️  SET con TTL (${ttlSeconds}s): "${tempPrompt}"`);
+    await vecs.set(tempPrompt, {}, tempResponse, ttlSeconds);
 
-    if (l2Res) {
-      console.log(`   -> ✅ HIT SEMANTICO: "${l2Res}"`);
-    } else {
-      console.log(`   -> ❌ MISS (Score basso?)`);
-    }
+    // 3. QUERY IMMEDIATA (Deve esistere)
+    console.log(`🔍 QUERY Immediata: "${tempPrompt}"`);
+    const immediateRes = await vecs.query(tempPrompt);
+    console.log(`   -> ${immediateRes ? "✅ TROVATO" : "❌ ERRORE"}`);
 
-    // 4. QUERY MISS
-    const missPrompt = "Qual è la capitale del Perù?";
-    console.log(`\n❌ QUERY MISS: "${missPrompt}"`);
-    const missRes = await vecs.query(missPrompt);
+    // 4. ATTESA SCADENZA
+    console.log(`⏳ Attendo ${ttlSeconds + 1} secondi...`);
+    await wait((ttlSeconds + 1) * 1000);
+
+    // 5. QUERY DOPO SCADENZA (Deve essere NULL)
+    console.log(`🔍 QUERY Post-Scadenza: "${tempPrompt}"`);
+    const expiredRes = await vecs.query(tempPrompt);
     console.log(
-      `   -> Result: ${missRes === null ? "NULL (Corretto)" : missRes}`
+      `   -> ${
+        expiredRes === null
+          ? "✅ SCADUTO CORRETTAMENTE (MISS)"
+          : "❌ ERRORE: ANCORA PRESENTE"
+      }`
     );
   } catch (err) {
     console.error("Ops:", err);

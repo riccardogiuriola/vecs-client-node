@@ -31,7 +31,7 @@ export class VecsClient extends EventEmitter {
   }
 
   /**
-   * Connette al server Vex.
+   * Connette al server Vecs.
    */
   public async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -82,7 +82,7 @@ export class VecsClient extends EventEmitter {
    */
   private sendCommand(
     command: string,
-    ...args: (string | object)[]
+    ...args: (string | object | number)[]
   ): Promise<string | null> {
     return new Promise((resolve, reject) => {
       if (!this.socket || !this.isConnected) {
@@ -119,13 +119,22 @@ export class VecsClient extends EventEmitter {
    * @param prompt - La frase o domanda.
    * @param params - Oggetto metadati (es. { user_id: 1 }).
    * @param response - La risposta da cacheare.
+   * @param ttl - (Opzionale) Tempo di vita in secondi. Se omesso usa il default del server.
    */
   public async set(
     prompt: string,
     params: Record<string, any>,
-    response: string
+    response: string,
+    ttl?: number
   ): Promise<string> {
-    const res = await this.sendCommand("SET", prompt, params, response);
+    const args: (string | object | number)[] = [prompt, params, response];
+
+    if (ttl !== undefined) {
+      if (ttl <= 0) throw new Error("TTL must be a positive number");
+      args.push(ttl);
+    }
+
+    const res = await this.sendCommand("SET", ...args);
     if (res !== "OK") {
       throw new Error(`Vecs SET Error: ${res}`);
     }
