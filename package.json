@@ -24,7 +24,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/riccardogiuriola/vecs-client-node"
+    "url": "git+https://github.com/riccardogiuriola/vecs-client-node.git"
   },
   "bugs": {
     "url": "https://github.com/riccardogiuriola/vecs-client-node/issues"
