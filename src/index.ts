@@ -27,7 +27,7 @@ export class VecsClient extends EventEmitter {
   constructor(options: VecsOptions = {}) {
     super();
     this.host = options.host || "127.0.0.1";
-    this.port = options.port || 6379;
+    this.port = options.port || 6380;
   }
 
   /**

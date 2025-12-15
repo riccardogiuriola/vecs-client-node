@@ -5,7 +5,7 @@ async function wait(ms: number) {
 }
 
 async function main() {
-  const vecs = new VecsClient({ port: 6379 });
+  const vecs = new VecsClient({ port: 6380 });
 
   vecs.on("error", (err) => console.error("🔴 Client Error:", err));
 

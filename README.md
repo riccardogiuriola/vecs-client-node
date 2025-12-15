@@ -30,7 +30,7 @@ import { VecsClient } from 'vecs-client';
 
 const client = new VecsClient({
     host: '127.0.0.1', // Default: localhost
-    port: 6379         // Default: 6379
+    port: 6380         // Default: 6380
 });
 
 await client.connect();
@@ -108,7 +108,7 @@ if (deleted) {
 Creates a new client instance.
 
 - `options.host` (string): Server hostname (default: `127.0.0.1`).
-- `options.port` (number): Server port (default: `6379`).
+- `options.port` (number): Server port (default: `6380`).
 - `options.timeout` (number): Socket timeout in milliseconds (optional).
 
 ### `client.connect(): Promise<void>`
